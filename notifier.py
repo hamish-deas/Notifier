@@ -96,7 +96,6 @@ def main():
                 currentver = version["software_version"]
                 continue
             if version["software_version"]  == "Unknown":
-                print("Unknown skipped")
                 continue
             pccount = version["computers"]["size"]
             if pccount == "1":
