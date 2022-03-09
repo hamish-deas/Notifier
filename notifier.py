@@ -39,11 +39,11 @@ def parsepc(title, install, new):
         "newver": new
         }
 
-def managepcnotify(pcnotify, pc, pcid):
-    if pcid in pcnotify:
-        pcnotify[pcid].append(pc)
+def managepcdefinition(pcdef, pc, pcid):
+    if pcid in pcdef:
+        pcdef[pcid].append(pc)
     else:
-        pcnotify[pcid] = [pc]   
+        pcdef[pcid] = [pc]   
 
 def sendmail(msgcontents):
     # uncomment these for authenticated SMTP
@@ -85,7 +85,7 @@ def main():
     patchids = webrequest(url, patchtitles) 
     # uncomment this to see a list of all the patche reporting titles.  Probably too much info for debug mode (issue #3)
     #print(json.dumps(patchids))
-    pcnotify = dict()
+    pcdef = dict()
     print("Checking patches")
     for patch in patchids["patch_software_titles"]["patch_software_title"]:
         swtitle = webrequest(url, patchreports+patch["id"])
@@ -97,13 +97,13 @@ def main():
                 continue
             pccount = version["computers"]["size"]
             if pccount == "1":
-                managepcnotify(pcnotify, parsepc(swtitle, version, currentver), version["computers"]["computer"]["id"])
+                managepcdefinition(pcdef, parsepc(swtitle, version, currentver), version["computers"]["computer"]["id"])
             elif pccount != "0":
                 for pc in version["computers"]["computer"]:
-                    managepcnotify(pcnotify, parsepc(swtitle, version, currentver), pc["id"])
+                    managepcdefinition(pcdef, parsepc(swtitle, version, currentver), pc["id"])
     print("Composing emails")
-    for key in pcnotify.keys():
-        formatsendmail(key, pcnotify[key])
+    for key in pcdef.keys():
+        formatsendmail(key, pcdef[key])
     print("Done!")
 
 if __name__ == "__main__":
