@@ -24,7 +24,7 @@ def gettoken():
 
     headers = {"Accept": "application/json", "Authorization": F"Basic {str(cred64, 'utf-8')}"}
     response = requests.request("POST", tokenurl, headers=headers)
-
+    print("Token acquired")
     return json.loads(response.text)["token"]
 
 def webrequest(uri, endpoint):
