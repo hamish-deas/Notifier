@@ -24,7 +24,7 @@ management) using the Jamf API and SMTP!
 # Requirements
 The requirements.txt file can be fed to PIP to download all the prerequisites for the project using the command:
 
-```python -m pip -r requests.txt```
+```python3 -m pip -r requirements.txt```
 
 # importrequests
 
