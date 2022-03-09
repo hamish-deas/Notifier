@@ -95,6 +95,8 @@ def main():
             if idx == 0:
                 currentver = version["software_version"]
                 continue
+            if version["software_version"]  == "Unknown":
+                continue
             pccount = version["computers"]["size"]
             if pccount == "1":
                 managepcdefinition(pcdef, parsepc(swtitle, version, currentver), version["computers"]["computer"]["id"])
