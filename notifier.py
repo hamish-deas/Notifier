@@ -76,19 +76,24 @@ def formatsendmail(pcid, patches):
     #emailaddr = YOUR_EMAIL
     fullname = computerinfo["computer"]["location"]["realname"]
     pcname = computerinfo["computer"]["general"]["name"]
-    email = EmailMessage()
-    email['from'] = "[your email]"
-    email['to'] = emailaddr
-    email['subject'] = 'Action Needed: Please Patch Your Mac! (Automated)'
-    mailtext = F'Hi {fullname}!\nYour Mac, {pcname}, needs these applications to be updated:\n\n'
-    for patch in patches:
-        mailtext += (F'    - {patch["name"]} has been updated to {patch["newver"]}, you have {patch["installver"]} installed!\n')
-    mailtext += (F'\nIf you have any questions about how to update these, please reach out to the IT Team!\n\n-ReportBot via Jamf Pro!')
-    email.set_content(mailtext)
-    # uncomment to see a preview of the emails before they go out.  Good candidate for debug mode (issue #3)
-    #print("----------------")
-    #print(email)
-    sendmail(email)
+    if mailvalidate(emailaddr) == True:
+        email = EmailMessage()
+        email['from'] = "[your email]"
+        email['to'] = emailaddr
+        email['subject'] = 'Action Needed: Please Patch Your Mac! (Automated)'
+        mailtext = F'Hi {fullname}!\nYour Mac, {pcname}, needs these applications to be updated:\n\n'
+        for patch in patches:
+            mailtext += (F'    - {patch["name"]} has been updated to {patch["newver"]}, you have {patch["installver"]} installed!\n')
+        mailtext += (F'\nIf you have any questions about how to update these, please reach out to the IT Team!\n\n-ReportBot via Jamf Pro!')
+        email.set_content(mailtext)
+        # uncomment to see a preview of the emails before they go out.  Good candidate for debug mode (issue #3)
+        #print("----------------")
+        #print(email)
+        sendmail(email)
+    elif mailvalidate(emailaddr) == False:
+        print(F"Error: computer {pcname} has a non-valid email: {emailaddr}")
+    else:
+        print(F"Error: Unknown error has occured in validating email {emailaddr} for computer {pcname}")
 
 def main():
     patchids = webrequest(url, patchtitles) 
