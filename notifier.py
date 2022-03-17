@@ -75,7 +75,7 @@ def formatsendmail(pcid, patches):
     #print(json.dumps(computerinfo))
     emailaddr = computerinfo["computer"]["location"]["email_address"]
     ## uncomment to change the sending address to your email.  Good candidate for debug mode (issue #3)
-    if debug == (1 or 2):
+    if debug == 1 or debug == 2:
         debugaddr = "YOUR_EMAIL"
         emailaddr = debugaddr
     fullname = computerinfo["computer"]["location"]["realname"]
@@ -91,10 +91,10 @@ def formatsendmail(pcid, patches):
         mailtext += (F'\nIf you have any questions about how to update these, please reach out to the IT Team!\n\n-ReportBot via Jamf Pro!')
         email.set_content(mailtext)
         ## uncomment to see a preview of the emails before they go out.  Good candidate for debug mode (issue #3)
-        if debug == (2 or 3):
+        if debug == 2 or debug == 3:
             print("----------------")
             print(email)
-        if debug == (0 or 1 or 2):
+        if debug == 0 or debug == 1 or debug == 2:
             sendmail(email)
     elif mailvalidate(emailaddr) == False:
         print(F"Error: computer {pcname} has a non-valid email: {emailaddr}")
@@ -129,7 +129,7 @@ def main():
     print("Done!")
 
 if __name__ == "__main__":
-    if debug == (1 or 2 or 3):
+    if debug == 1 or debug == 2 or debug == 3:
         print(F"Debug mode {debug} enabled!")
     token = gettoken()
     main()
