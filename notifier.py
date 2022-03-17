@@ -71,7 +71,7 @@ def formatsendmail(pcid, patches):
     email['from'] = "[your email]"
     email['to'] = emailaddr
     email['subject'] = 'Action Needed: Please Patch Your Mac! (Automated)'
-    mailtext = F'Hi {fullname}!\nYour Mac, {pcname} needs these applications to be updated:\n\n'
+    mailtext = F'Hi {fullname}!\nYour Mac, {pcname}, needs these applications to be updated:\n\n'
     for patch in patches:
         mailtext += (F'    - {patch["name"]} has been updated to {patch["newver"]}, you have {patch["installver"]} installed!\n')
     mailtext += (F'\nIf you have any questions about how to update these, please reach out to the IT Team!\n\n-ReportBot via Jamf Pro!')
