@@ -83,7 +83,7 @@ def formatsendmail(pcid, patches):
         email['subject'] = 'Action Needed: Please Patch Your Mac! (Automated)'
         mailtext = F'Hi {fullname}!\nYour Mac, {pcname}, needs these applications to be updated:\n\n'
         for patch in patches:
-            mailtext += (F'    - {patch["name"]} has been updated to {patch["newver"]}, you have {patch["installver"]} installed!\n')
+            mailtext += (F'    - {patch["name"]} -> {patch["newver"]}\n')
         mailtext += (F'\nIf you have any questions about how to update these, please reach out to the IT Team!\n\n-ReportBot via Jamf Pro!')
         email.set_content(mailtext)
         # uncomment to see a preview of the emails before they go out.  Good candidate for debug mode (issue #3)
