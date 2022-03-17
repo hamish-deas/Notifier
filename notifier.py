@@ -4,6 +4,7 @@ import xmltodict
 import json
 import smtplib
 import os
+import re
 from email.message import EmailMessage
 
 baseurl = "https://[yoururl].jamfcloud.com/" # candidate for config file (issue #2)
@@ -57,6 +58,14 @@ def sendmail(msgcontents):
     #smtpobj.login(smtpuser,smtppass)
     smtpobj.send_message(msgcontents)
     smtpobj.quit()
+
+def mailvalidate(testmail):
+    # the regex means start of line (^), any 1 or more characters (.+), the character @ (@), any 1 or more characters (.+), the character . (\.), any 1 or more characters (.+), end of line ($)
+    validmail = re.compile(r'^.+@.+\..+$')
+    if re.fullmatch(validmail, testmail):
+        return True
+    else:
+        return False
 
 def formatsendmail(pcid, patches):
     computerinfo = webrequest(url, computers+"/id/"+pcid)
